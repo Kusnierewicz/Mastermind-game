@@ -2,6 +2,9 @@ module Mastermind
   class Board
   	attr_reader :grid
 
+    @@colors = %w[b g r p y o]
+    @@pointers = %w[r w]
+
     def game_colors
       
     end
@@ -14,22 +17,30 @@ module Mastermind
       grid.each.with_index { |a, x| print x + 1, " - "; puts a.inspect }
     end 
 
-    def decipher
-      
-    end
+    
 
     def user_code
       input = ask("code:  ") { |q| q.echo = "*" }
       @code = input.split(", ")
     end
 
+    def print_code
+      random_code
+      #puts @code
+    end
+
   	private
+
+
 
     
 
     def random_code
-      
-
+      @code = []
+      4.times do 
+        @code.push(@@colors.sample)
+      end
+      @code
     end
 
 
