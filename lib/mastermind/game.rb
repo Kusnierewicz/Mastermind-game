@@ -24,12 +24,7 @@ module Mastermind
       @round = @round + 1
     end
 
-    def decipher
-      hints = []
-      histogram_code = {}
-      
-      histogram_move = {}
-    end
+    
 
   	def play
   	  puts "#{players[0].name} has randomly been selected as the first player"
