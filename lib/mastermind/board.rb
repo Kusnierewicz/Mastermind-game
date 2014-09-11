@@ -5,10 +5,6 @@ module Mastermind
     @@colors = %w[b g r p y o]
     @@pointers = %w[b w]
 
-    def game_colors
-      
-    end
-
   	def initialize(input = {})
   	  @grid = input.fetch(:grid, default_grid)
   	end
@@ -17,33 +13,56 @@ module Mastermind
       grid.each.with_index { |a, x| print x + 1, " - "; puts a.inspect }
     end 
 
-    def decipher
+    def game_over
+      return "Player was able to decipher the code and has won the game!!!" if winner?
+      return "Player did not decipher the code and has lost the game..." if $round == 11
+      false
+    end
+
+    def winner?
+      return grid[$round][1].eql?(["b", "b", "b", "b"])
+    end
+
+    def descrambler
       @hints = []
       @blacks = 0
       @whites = 0
+      code_to_iter = @code
       
-      @code.each do |color|
-        grid[game.round][0].each do |move_color|
-          if color == move_color
+      code_to_iter.each.with_index do |color, index|
+        if color == grid[$round][0][index]
             @blacks += 1
             @hints.push("b")
-          end        
+        elsif code_to_iter.include?(grid[$round][0][index])
+            @whites += 1           
         end
       end
 
+      #code_to_iter.each.with_index do |color, index|
+      #  if code_to_iter.include?(grid[$round][0][index])
+      #      @whites += 1      
+      #  end
+      #end  
+
+      @whites = @whites - @blacks
+
+      @whites.times do
+        @hints.push("w")
+      end
+      grid[$round][1] = @hints
 
     end
 
-    def histagram_move
-      @histogram_move = {}
-      grid[game.round][0].each { |color| @histogram_move[color] += 1 }
+    def histogram_move
+      @histogram_move = Hash.new(0)
+      grid[$round][0].each { |color| @histogram_move[color] += 1 }
       @histogram_move
     end
 
     def user_code
       input = ask("code:  ") { |q| q.echo = "*" }
-      @code = input.split(", ")
-      @histogram_code = {}
+      @code = input.split("")
+      @histogram_code = Hash.new(0)
       @code.each { |color| @histogram_code[color] += 1 }
       @histogram_code
     end
@@ -53,24 +72,12 @@ module Mastermind
       4.times do 
         @code.push(@@colors.sample)
       end
-      @histogram_code = {}
+      @histogram_code = Hash.new(0)
       @code.each { |color| @histogram_code[color] += 1 }
-      @histogram_code
-    end
-
-    def print_code
-      random_code
-      #puts @code
+      return @histogram_code
     end
 
   	private
-
-
-
-    
-
-    
-
 
   	def default_grid(rounds = 12)
   	  Array.new(rounds) { Array.new(2) { Array.new() } }
