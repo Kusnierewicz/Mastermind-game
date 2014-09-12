@@ -33,16 +33,14 @@ module Mastermind
         if color == grid[$round][0][index]
             @blacks += 1
             @hints.push("b")
-        elsif code_to_iter.include?(grid[$round][0][index])
-            @whites += 1           
         end
       end
 
-      #code_to_iter.each.with_index do |color, index|
-      #  if code_to_iter.include?(grid[$round][0][index])
-      #      @whites += 1      
-      #  end
-      #end  
+      code_to_iter.each.with_index do |color, index|
+        if code_to_iter.include?(grid[$round][0][index])
+            @whites += 1      
+        end
+      end  
 
       @whites = @whites - @blacks
 
@@ -74,7 +72,7 @@ module Mastermind
       end
       @histogram_code = Hash.new(0)
       @code.each { |color| @histogram_code[color] += 1 }
-      return @histogram_code
+      @histogram_code
     end
 
   	private

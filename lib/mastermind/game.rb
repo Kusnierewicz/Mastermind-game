@@ -21,7 +21,7 @@ module Mastermind
     end
 
   	def play
-      board.user_code
+      board.random_code
       while true
         solicit_move
         get_move
