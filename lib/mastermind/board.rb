@@ -3,7 +3,6 @@ module Mastermind
   	attr_reader :grid
 
     $colors = %w[b g r p y o]
-    @@pointers = %w[b w]
 
   	def initialize(input = {})
   	  @grid = input.fetch(:grid, default_grid)
