@@ -2,7 +2,7 @@ module Mastermind
 	class Player
 	  attr_reader :role, :name
 	  def initialize(input)
-	  	@color = input.fetch(:role)
+	  	@role = input.fetch(:role)
 	  	@name = input.fetch(:name)
 	  end
 	end

@@ -2,7 +2,7 @@ module Mastermind
   class Board
   	attr_reader :grid
 
-    @@colors = %w[b g r p y o]
+    $colors = %w[b g r p y o]
     @@pointers = %w[b w]
 
   	def initialize(input = {})
@@ -48,31 +48,29 @@ module Mastermind
         @hints.push("w")
       end
       grid[$round][1] = @hints
-
     end
 
-    def histogram_move
-      @histogram_move = Hash.new(0)
-      grid[$round][0].each { |color| @histogram_move[color] += 1 }
-      @histogram_move
+    def code_setup(mastermind)
+      if mastermind.name == "computer"
+        random_code
+      else
+        user_code
+      end
     end
 
     def user_code
-      input = ask("code:  ") { |q| q.echo = "*" }
+      print "Hello Mastermind! Please enter the CODE!"
+      input = ask(":  ") { |q| q.echo = "*" }
       @code = input.split("")
-      @histogram_code = Hash.new(0)
-      @code.each { |color| @histogram_code[color] += 1 }
-      @histogram_code
+      print "CODE is set - now it's turn for Hacker to show his skils!"
     end
 
     def random_code
       @code = []
       4.times do 
-        @code.push(@@colors.sample)
+        @code.push($colors.sample)
       end
-      @histogram_code = Hash.new(0)
-      @code.each { |color| @histogram_code[color] += 1 }
-      @histogram_code
+      print "Hello Hacker! Computer has chosen the CODE! TRY TO SOLVE IT IF YOU CAN!"
     end
 
   	private
