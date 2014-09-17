@@ -31,39 +31,21 @@ module Mastermind
       if mastermind.name != "computer"
         get_move
       else
+        hal = Mastermind::Ai.new
+        puts hal.name
+        puts hal.avalible_numbers
+        puts hal.total_codes
         ia_move
       end
     end
 
-    def ia_move
-
-      total_codes = $colors.repeated_permutation(4).to_a
-      output = {
-        "1" => %w[r r r r],
-        "2" => %w[r r r w],
-        "3" => %w[r r w w],
-        "4" => %w[r w w w],
-        "5" => %w[w w w w],
-        "6" => %w[w w w],
-        "7" => %w[w w],
-        "8" => %w[w],
-        "9" => %w[r r r],
-        "10" => %w[r r],
-        "11" => %w[r],
-        "12" => %w[],
-        "13" => %w[r r r r],
-        "14" => %w[r r w],
-        "15" => %w[r w],
-      }
-
-     
-
+    def ia_move 
 
       if $round == 0
         proposal = %w[1 1 2 2]
       elsif $round == 1
-        ai.output(board.grid[$round - 1][1])
-        proposal = %w[3 3 4 4]
+        
+        proposal = hal.output(board.grid[$round - 1][1])
       else
         proposal = []
         4.times do 
