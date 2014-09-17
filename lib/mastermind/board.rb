@@ -2,7 +2,7 @@ module Mastermind
   class Board
   	attr_reader :grid
 
-    $colors = %w[b g r p y o]
+    $colors = %w[1 2 3 4 5 6]
 
   	def initialize(input = {})
   	  @grid = input.fetch(:grid, default_grid)
@@ -12,64 +12,71 @@ module Mastermind
       grid.each.with_index { |a, x| print x + 1, " - "; puts a.inspect }
     end 
 
+    def read_board
+      self.grid[$round][1]
+    end
+
     def game_over
-      return "Player was able to decipher the code and has won the game!!!" if winner?
-      return "Player did not decipher the code and has lost the game..." if $round == 11
+      return "Hacker was able to decipher the code and has won the game!!!" if winner?
+      return "Hacker did not decipher the code and has lost the game..." if $round == 11
       false
     end
 
     def winner?
-      return grid[$round][1].eql?(["b", "b", "b", "b"])
+      return grid[$round][1].eql?(["r", "r", "r", "r"])
     end
 
     def descrambler
       @hints = []
-      @blacks = 0
-      @whites = 0
+      correct_code = []
+      guess_to_iter = grid[$round][0]
       code_to_iter = @code
       
       code_to_iter.each.with_index do |color, index|
         if color == grid[$round][0][index]
-            @blacks += 1
-            @hints.push("b")
+          correct_code.push(color)
+          @hints.push("r")
         end
       end
 
+      code_to_iter -= correct_code
+      guess_to_iter -= correct_code
+
       code_to_iter.each.with_index do |color, index|
-        if code_to_iter.include?(grid[$round][0][index])
-            @whites += 1      
+        if guess_to_iter.include?(color)
+            @hints.push("w")      
         end
       end  
 
-      @whites = @whites - @blacks
+      #@whites = @whites - @blacks
 
-      @whites.times do
-        @hints.push("w")
-      end
+      #@whites.times do
+      #  @hints.push("w")
+      #end
       grid[$round][1] = @hints
     end
 
-    def code_setup(mastermind)
+    def code_setup(mastermind, hacker)
       if mastermind.name == "computer"
-        random_code
+        random_code(hacker)
       else
-        user_code
+        user_code(mastermind)
       end
     end
 
-    def user_code
-      print "Hello Mastermind! Please enter the CODE!"
+    def user_code(mastermind)
+      print "Hello #{mastermind.name}. As Mastermind, please enter the CODE!"
       input = ask(":  ") { |q| q.echo = "*" }
       @code = input.split("")
-      print "CODE is set - now it's turn for Hacker to show his skils!"
+      print "CODE is set. Now it's turn for Hacker to show his skils!"
     end
 
-    def random_code
+    def random_code(hacker)
       @code = []
       4.times do 
         @code.push($colors.sample)
       end
-      print "Hello Hacker! Computer has chosen the CODE! TRY TO SOLVE IT IF YOU CAN!"
+      print "Hello #{hacker.name}! Computer has chosen the CODE! TRY TO SOLVE IT IF YOU CAN!"
     end
 
   	private
