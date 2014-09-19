@@ -31,36 +31,16 @@ module Mastermind
       if mastermind.name != "computer"
         get_move
       else
-        hal = Mastermind::Ai.new
-        puts hal.name
-        puts hal.avalible_numbers
-        puts hal.total_codes
+        @hal = Mastermind::Ai.new
         ia_move
       end
     end
 
-    def ia_move 
-
-      if $round == 0
-        proposal = %w[1 1 2 2]
-      elsif $round == 1
-        
-        proposal = hal.output(board.grid[$round - 1][1])
-      else
-        proposal = []
-        4.times do 
-        proposal.push($colors.sample)
-        end
-      end  
-
-       #output.each do |key, value|
-       # if board.grid[$round - 1][1] == value
-       #   print output.key(value)
-       # end
-       #end
-
-        board.grid[$round][0] = proposal
-      
+    def ia_move
+      proposal = [] 
+      n = @hal.doutput(board.grid[$round - 1][1])
+      proposal = @hal.next_move(n)
+      board.grid[$round][0] = proposal
     end
 
     def next_round()
@@ -74,6 +54,7 @@ module Mastermind
       while true
         solicit_move
         next_move(@hacker)
+        #board.print_board
         board.descrambler
         puts ""
         board.print_board
