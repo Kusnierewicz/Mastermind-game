@@ -6,6 +6,7 @@ module Mastermind
   	  @players = players
   	  @board = board
       $round = 0
+      @coding_base = []
   	end
 
     def players_setup(players)
@@ -39,8 +40,11 @@ module Mastermind
     def ia_move
       proposal = [] 
       n = @hal.doutput(board.grid[$round - 1][1])
-      proposal = @hal.next_move(n)
+      @hal.evaluation(board.grid[$round - 1][0], n)
+      proposal = @hal.next_move
       board.grid[$round][0] = proposal
+      @coding_base.push(@hal.total_codes.count)
+
     end
 
     def next_round()
@@ -60,6 +64,7 @@ module Mastermind
         board.print_board
         if board.game_over
           puts board.game_over
+          puts @coding_base
           return
         end
         next_round      
