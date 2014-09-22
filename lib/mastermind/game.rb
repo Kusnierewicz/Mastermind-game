@@ -15,10 +15,14 @@ module Mastermind
         @hacker = players[1].role == "hacker" ? players[1] : players[0]
       elsif players.length == 1
         @mastermind = players[0].role == "mastermind" ? players[0] : Mastermind::Player.new({role: "mastermind", name: "computer"})
-        @hacker = @mastermind.name == "computer" ? players[0] : Mastermind::Player.new({role: "mastermind", name: "computer"})
+        @hacker = @mastermind.name == "computer" ? players[0] : Mastermind::Player.new({role: "hacker", name: "computer"})
+      end
+      if @hacker.name == "computer"
+        @hal = Mastermind::Ai.new
       end
       return @mastermind.name, @hacker.name
     end
+
 
   	def solicit_move
   	  print "Round #{$round + 1}! #{@hacker.name}, please enter a code proposal (correct input example: 1234 ):"
@@ -28,11 +32,10 @@ module Mastermind
   	  board.grid[$round][0] = proposal.split("")
   	end
 
-    def next_move(mastermind)
-      if mastermind.name != "computer"
+    def next_move(hacker)
+      if hacker.name != "computer"
         get_move
-      else
-        @hal = Mastermind::Ai.new
+      else 
         ia_move
       end
     end
@@ -40,10 +43,13 @@ module Mastermind
     def ia_move
       proposal = [] 
       n = @hal.doutput(board.grid[$round - 1][1])
+      print "N = ", n
       @hal.evaluation(board.grid[$round - 1][0], n)
       proposal = @hal.next_move
       board.grid[$round][0] = proposal
       @coding_base.push(@hal.total_codes.count)
+      puts "pozostalo ", @hal.total_codes.count, " propozycji kodu"
+      #print @hal.total_codes
 
     end
 
