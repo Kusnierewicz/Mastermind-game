@@ -29,30 +29,42 @@ module Mastermind
     def descrambler
       @hints = []
       correct_code = []
-      guess_to_iter = grid[$round][0]
+      code_left_to_iter = []
       code_to_iter = @code
+      guess = grid[$round][0]
+      guess_to_w = []
       
       code_to_iter.each.with_index do |color, index|
-        if color == grid[$round][0][index]
-          correct_code.push(color)
+        if color == guess[index]
+          #correct_code.push(color)
           @hints.push("r")
+        else
+          code_left_to_iter.push(color)
+          guess_to_w.push(guess[index])
         end
       end
 
-      code_to_iter -= correct_code
-      guess_to_iter -= correct_code
+      puts "------------------guess left = #{guess_to_w}"
 
-      code_to_iter.each.with_index do |color, index|
-        if guess_to_iter.include?(color)
+      #code_to_iter -= correct_code
+      puts "----------------------------------------------code left = #{code_left_to_iter}"
+      guess 
+
+      code_left_to_iter.each.with_index do |color, index|
+        guess_to_w.each.with_index do |color, index|
+          if guess_to_w.include?(color)
+            guess_to_w.delete(guess_to_w.index(color))
             @hints.push("w")      
-        end
-      end  
+          end
+      end
 
-      #@whites = @whites - @blacks
+      #code_left_to_iter.each.with_index do |color, index|
+      #  if guess_to_w.include?(color)
+      #    guess_to_w.delete(guess_to_w.index(color))
+      #    @hints.push("w")      
+      #  end
+      #end  
 
-      #@whites.times do
-      #  @hints.push("w")
-      #end
       grid[$round][1] = @hints
     end
 
@@ -68,7 +80,8 @@ module Mastermind
       print "Hello #{mastermind.name}. As Mastermind, please enter the CODE!"
       input = ask(":  ") { |q| q.echo = "*" }
       @code = input.split("")
-      print "CODE is set. Now it's turn for Hacker to show his skils!"
+      print "CODE is set. Now it's turn for Hacker to show his skils!PRESS ENTER TO START!"
+      @noinput = gets.chomp
     end
 
     def random_code(hacker)

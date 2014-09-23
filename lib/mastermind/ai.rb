@@ -61,43 +61,63 @@ module Mastermind
 	  frequencies
 	end
 
-	def cut(move, num)
+	def definicja(move, num)
 	  @bad_code = []
-	  print "start cut_codes"
+	  
+
+	  puts "rozpoczynam wycinanie lych kodow"
 
 	  if move.uniq.length == move.length
+	  	puts "nie ma powtorzen w kodzie"
 		#nie ma powtórzeń
 		@total_codes.each do |element|
+			#puts "element #{element}"
 		  element.each do |digit|
+		  	#puts "       cyfra #{digit}"
 		  	unless move.include?(digit)
 		  	  #zmiana 1
+		  	  #puts "opcja 1 element #{element} zostanie dodany do zlych kodow"
 		  	  @bad_code.push(element)
+		  	else
+		  	  #puts "opcja 1 element #{element} nie zostanie dodany do zlych kodow"
 		  	end
 		  end
 		end
 	  else
+	  	puts "sa powtorzenia w kodzie"
 		#sa powtórzenia
 	    histogram = histogram(move)
 	    histogram.each do |key, value|
-		  if value > num
+		  if value.to_i > num
 		  	@total_codes.each do |element|
+		  		keys_in_code = 0
+		  		#puts "element #{element}"
 		  	  element.each do |digit|
+		  	  	#puts "       cyfra #{digit}"
 		  	    if digit == key
+		  	      #puts "       cyfra #{digit} == #{key}"
 		  	      keys_in_code += 1
+		  	      #puts "keys_in_code = #{keys_in_code}"
 		  	    end
 		  	  end
-		  	  if keys_in_code >= value
+		  	  if keys_in_code >= value.to_i
+		  	  	#puts "#{keys_in_code} jest wieksze od #{value.to_i}"
+		  	  	#puts "opcja 2 element #{element} zostanie dodany do zlych kodow"
 		  	    @bad_code.push(element)
 		  	  end
 		  	end
+		  else
+		  	puts "nie ma w histogramie (#{histogram} wartosci wiekszych num(#{num})"
 		  end
 		end
 	  end
-	  @bad_code.push(last_move)
+	  @bad_code.push(move)
 	  if @bad_code.uniq.length != @bad_code.length
+	  	puts "sa powtorzenia w zlych kodach"
 		#zmiana 2
 		return @bad_code.uniq!
 	  else
+	  	puts "nie ma powtorzen w zlych kodach"
 	  	@bad_code
 	  end
 	end
@@ -113,6 +133,7 @@ module Mastermind
 		  element.each do |digit|
 		  	if last_move.include?(digit)
 		  	  @bad_code.push(element)
+		  	  #puts "opcja 1 element #{element} zostanie dodany do zlych kodow"
 		  	end
 		  end
 		end
@@ -126,80 +147,130 @@ module Mastermind
 
 	  when "2"
 	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 1) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
 	  	
 	  when "3"
 	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 2) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
 	  	
 	  when "4"
 	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 3) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
 	  	
 	  when "5"
 	  	puts "wypadl numer #{num}"
-	  	
-	  when "6"
-	  	puts "wypadl numer #{num}"
-	  	
-	  when "7"
-	  	puts "wypadl numer #{num}"
-	  	
-	  when "8"
-	  	puts "wypadl numer #{num}"
-	  	
-	  when "9"
-	  	puts "wypadl numer #{num}"
-	  	h = histogram(last_move)
-	  	puts h
-	  	b = cut(last_move, 2) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
-	  	puts b
+	  	@total_codes = last_move.permutation(4).to_a
 
-
-	  	#if last_move.uniq.length == last_move.length
-		#  #nie ma powtórzeń
-		#  @total_codes.each do |element|
-		#  	element.each do |digit|
-		#  	  unless last_move.include?(digit)
-		# 	  	#zmiana 1
-		#  	    puts @bad_code.push(element)
-		#  	  end
+	  	#@total_codes.each do |element|
+		#  element.each do |digit|
+		#  	unless last_move.include?(digit)
+		#  	  @bad_code.push(element)
+		#  	  puts "opcja 1 element #{element} zostanie dodany do zlych kodow"
 		#  	end
-		#  end
-		#else
-		#  #sa powtórzenia
-		#  histogram = histogram(last_move)
-		#  histogram.each do |key, value|
-		#  	if value > 2
-		#  	  @total_codes.each do |element|
-		#  	    element.each do |digit|
-		#  	      if digit == key
-		#  	      	keys_in_code += 1
-		#  	      end
-		#  	    end
-		#  	    if keys_in_code >= value
-		#  	      @bad_code.push(element)
-		#  	    end
-		#  	  end
-		#   	end
 		#  end
 		#end
 		#@bad_code.push(last_move)
 		#if @bad_code.uniq.length != @bad_code.length
-		#  #zmiana 2
 		#  @bad_code.uniq!
 		#  @total_codes = @total_codes - @bad_code
 		#else
 		#  @total_codes = @total_codes - @bad_code
 		#end
+	  	
+	  when "6"
+	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 1) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
+	  	
+	  when "7"
+	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 2) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
+	  	
+	  when "8"
+	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 3) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
+
+	  when "9"
+	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 2) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
+
 	  when "10"
 	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 3) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
 	  	
 	  when "11"
 	  	puts "wypadl numer #{num}"
+	  	@total_codes = last_move.permutation(4).to_a
 	  	
 	  when "12"
 	  	puts "wypadl numer #{num}"
+	  	puts "tworze histogram ruchu #{last_move}"
+	  	h = histogram(last_move)
+	  	puts "histogram ruchu #{last_move} = #{h}"
+	  	b = definicja(last_move, 3) # liczba 2, poniewaz sa dwie trafione cyfry w tej opcji"
+	  	puts "zlych kodow jest = #{b.count}"
+	  	puts "Total codes = #{@total_codes.count} przed wycieciem. WYCINAM!"
+	  	@total_codes = @total_codes - b
+	  	puts "Total codes = #{@total_codes.count} po wycieciu"
 	  	
 	  when "13"
 	  	puts "wypadl numer #{num}"
+	  	@total_codes = last_move.permutation(4).to_a
 	  	
 	  else
 		puts "blad evaluation"

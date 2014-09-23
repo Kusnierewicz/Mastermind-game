@@ -43,12 +43,12 @@ module Mastermind
     def ia_move
       proposal = [] 
       n = @hal.doutput(board.grid[$round - 1][1])
-      print "N = ", n
+      puts "Poprzedni ruch zostal przypisany do ruchu nr #{n}"
       @hal.evaluation(board.grid[$round - 1][0], n)
       proposal = @hal.next_move
       board.grid[$round][0] = proposal
       @coding_base.push(@hal.total_codes.count)
-      puts "pozostalo ", @hal.total_codes.count, " propozycji kodu"
+      print "pozostalo ", @hal.total_codes.count, " propozycji kodu"
       #print @hal.total_codes
 
     end
