@@ -61,6 +61,11 @@ module Mastermind
 	  frequencies
 	end
 
+	def create_groups(move, feedback)
+	  h_feedback = histogram(feedback)
+	  puts "feedback = #{feedback}"
+	end
+
 	def definicja(move, num)
 	  @bad_code = []
 	  

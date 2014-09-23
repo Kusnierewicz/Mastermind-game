@@ -49,6 +49,7 @@ module Mastermind
       board.grid[$round][0] = proposal
       @coding_base.push(@hal.total_codes.count)
       print "pozostalo ", @hal.total_codes.count, " propozycji kodu"
+      print @hal.create_groups(board.grid[$round -1][0], board.grid[$round - 1][1])
       #print @hal.total_codes
 
     end

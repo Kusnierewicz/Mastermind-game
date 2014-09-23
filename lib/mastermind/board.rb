@@ -28,7 +28,6 @@ module Mastermind
 
     def descrambler
       @hints = []
-      correct_code = []
       code_left_to_iter = []
       code_to_iter = @code
       guess = grid[$round][0]
@@ -36,7 +35,6 @@ module Mastermind
       
       code_to_iter.each.with_index do |color, index|
         if color == guess[index]
-          #correct_code.push(color)
           @hints.push("r")
         else
           code_left_to_iter.push(color)
@@ -44,26 +42,12 @@ module Mastermind
         end
       end
 
-      puts "------------------guess left = #{guess_to_w}"
-
-      #code_to_iter -= correct_code
-      puts "----------------------------------------------code left = #{code_left_to_iter}"
-      guess 
-
       code_left_to_iter.each.with_index do |color, index|
-        guess_to_w.each.with_index do |color, index|
-          if guess_to_w.include?(color)
-            guess_to_w.delete(guess_to_w.index(color))
-            @hints.push("w")      
-          end
+        if guess_to_w.include?(color)
+          guess_to_w.delete_at(guess_to_w.index(color) || guess_to_w.length)
+          @hints.push("w")      
+        end
       end
-
-      #code_left_to_iter.each.with_index do |color, index|
-      #  if guess_to_w.include?(color)
-      #    guess_to_w.delete(guess_to_w.index(color))
-      #    @hints.push("w")      
-      #  end
-      #end  
 
       grid[$round][1] = @hints
     end
