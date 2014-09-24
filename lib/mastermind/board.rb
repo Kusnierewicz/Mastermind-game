@@ -33,7 +33,7 @@ module Mastermind
       guess = grid[$round][0]
       guess_to_w = []
       
-      code_to_iter.each.with_index do |color, index|
+      code_to_iter.each_with_index do |color, index|
         if color == guess[index]
           @hints.push("r")
         else

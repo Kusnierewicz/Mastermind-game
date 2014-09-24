@@ -41,7 +41,6 @@ module Mastermind
 		"13" => %w[r r w w],
 	    }
 
-
 	  output.each do |key, value|
 	    if array.inspect == value.inspect
 	      match = value
@@ -62,8 +61,86 @@ module Mastermind
 	end
 
 	def create_groups(move, feedback)
+	  @correct_codes = []
 	  h_feedback = histogram(feedback)
-	  puts "feedback = #{feedback}"
+	  groups = move.combination(feedback.length).to_a.uniq!
+
+	  if h_feedback.has_key?("r")
+	  	c = h_feedback["r"]
+
+	  	case c
+	    when 1
+	    puts "1"
+	  	@total_codes.each do |code|	
+	  	  code.each_with_index do |color, index|
+	  	  	#puts "kod sprawdzany = #{code} a ruch to #{move}"
+	  	  	#puts "color = #{color}, ruch to #{move[index]}, a index = #{index}"
+            if move[index] == code[index]
+              #puts "    #{move[index]}, #{code[index]}"
+              @correct_codes.push(code)
+              #puts "    #{@correct_codes.length}"
+            end
+            
+          end
+        end
+        puts @correct_codes.count
+        @total_codes = @correct_codes.uniq!
+        @total_codes.include?(["1", "2", "3", "4"])	
+		#print "mamy correct code = #{@correct_codes}"
+        when 2
+          puts "2"
+          groups_r = [["x", "x", move[2], move[3]], [ move[0], "x", "x", move[3]], [ move[0], move[1], "x", "x"], ["x", move[1], move[2], "x"], ["x", move[1], "x", move[3]], [ move[0], "x", move[2], "x"]]
+          print groups_r
+          @total_codes.each do |code|	
+	  	    code.each_with_index do |color, index|
+  	    	  groups_r.each do |gcode|
+  	    	    gcode.each_with_index do |gcolor, gindex|
+  	  	#puts "kod sprawdzany = #{code} a ruch to #{move}"
+  	  	#puts "color = #{color}, ruch to #{move[index]}, a index = #{index}"
+                  if gcode[gindex] == code[gindex]
+          #puts "    #{move[index]}, #{code[index]}"
+                    @correct_codes.push(code)
+          #puts "    #{@correct_codes.length}"
+                  end
+                end
+              end
+            end
+          end
+          puts @correct_codes.count
+          @total_codes = @correct_codes.uniq!
+          @total_codes.include?(["1", "2", "3", "4"])	
+
+        when 3
+          puts "3"
+          groups_r = [["x", move[1], move[2], move[3]], [ move[0], "x", move[2], move[3]], [ move[0], move[1], move[2], "x"], [move[0], move[1], "x", move[3]]]
+          print groups_r
+          @total_codes.each do |code|	
+	  	    code.each_with_index do |color, index|
+  	    	  groups_r.each do |gcode|
+  	    	    gcode.each_with_index do |gcolor, gindex|
+  	  	#puts "kod sprawdzany = #{code} a ruch to #{move}"
+  	  	#puts "color = #{color}, ruch to #{move[index]}, a index = #{index}"
+                  if gcode[gindex] == code[gindex]
+          #puts "    #{move[index]}, #{code[index]}"
+                    @correct_codes.push(code)
+          #puts "    #{@correct_codes.length}"
+                  end
+                end
+              end
+            end
+          end
+          puts @correct_codes.count
+          @total_codes = @correct_codes.uniq!
+          @total_codes.include?(["1", "2", "3", "4"])
+        else
+		  puts "blad evaluation create_groups"
+	  	end
+      end
+
+	  #puts "grupy = #{groups}"
+	  #h_feedback.each do |key, value|
+	  #	if key = "r"
+	  #		groups_r = move.combination(value).to_a.uniq!
 	end
 
 	def definicja(move, num)
