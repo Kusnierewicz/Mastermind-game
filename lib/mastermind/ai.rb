@@ -17,7 +17,7 @@ module Mastermind
 #each_index
 #
 #
-	
+=begin	
     def doutput(array)
       if $round == 0
       	puts "runda 0 czyli brak output'u"
@@ -53,7 +53,7 @@ module Mastermind
 	  	puts "nie znaleziono wyniku w bazie - blad"
 	  end
 	end
-
+=end
 	def histogram(array)
 	  frequencies = Hash.new(0)
 	  array.each { |number| frequencies[number] += 1 }
@@ -63,9 +63,46 @@ module Mastermind
 	def create_groups(move, feedback)
 	  @correct_codes = []
 	  h_feedback = histogram(feedback)
-	  groups = move.combination(feedback.length).to_a.uniq!
+
+	  if feedback.length > 0
+	  	puts "ruch to #{move}"
+	  	puts "feedback wynosi #{feedback.length} - #{feedback}"
+
+		groups = move.combination(feedback.length).to_a
+		if groups.uniq.length != groups.length
+		  groups.uniq!
+		end
+		puts "liczba kombinacji wynosi #{groups.length}"
+		print groups
+		@total_codes.each do |code|
+		  groups.each do |guess|
+		    if (guess - code).empty?
+		      @correct_codes.push(code)
+		    end
+		  end
+		end
+		@total_codes = @correct_codes.uniq!
+	  elsif feedback == nil
+	  	@total_codes.each do |element|
+		  element.each do |digit|
+		  	if move.include?(digit)
+		  	  @bad_code.push(element)
+		  	end
+		  end
+		end
+		@bad_code.push(move)
+		if @bad_code.uniq.length != @bad_code.length
+		  @bad_code.uniq!
+		  @total_codes = @total_codes - @bad_code
+		else
+		  @total_codes = @total_codes - @bad_code
+		end
+
+	  end
+
 
 	  if h_feedback.has_key?("r")
+	  	@correct_codes = []
 	  	c = h_feedback["r"]
 
 	  	case c
@@ -73,76 +110,62 @@ module Mastermind
 	    puts "1"
 	  	@total_codes.each do |code|	
 	  	  code.each_with_index do |color, index|
-	  	  	#puts "kod sprawdzany = #{code} a ruch to #{move}"
-	  	  	#puts "color = #{color}, ruch to #{move[index]}, a index = #{index}"
             if move[index] == code[index]
-              #puts "    #{move[index]}, #{code[index]}"
               @correct_codes.push(code)
-              #puts "    #{@correct_codes.length}"
             end
-            
           end
         end
         puts @correct_codes.count
         @total_codes = @correct_codes.uniq!
         @total_codes.include?(["1", "2", "3", "4"])	
-		#print "mamy correct code = #{@correct_codes}"
         when 2
           puts "2"
           groups_r = [["x", "x", move[2], move[3]], [ move[0], "x", "x", move[3]], [ move[0], move[1], "x", "x"], ["x", move[1], move[2], "x"], ["x", move[1], "x", move[3]], [ move[0], "x", move[2], "x"]]
-          print groups_r
           @total_codes.each do |code|	
 	  	    code.each_with_index do |color, index|
   	    	  groups_r.each do |gcode|
   	    	    gcode.each_with_index do |gcolor, gindex|
-  	  	#puts "kod sprawdzany = #{code} a ruch to #{move}"
-  	  	#puts "color = #{color}, ruch to #{move[index]}, a index = #{index}"
                   if gcode[gindex] == code[gindex]
-          #puts "    #{move[index]}, #{code[index]}"
                     @correct_codes.push(code)
-          #puts "    #{@correct_codes.length}"
                   end
                 end
               end
             end
           end
-          puts @correct_codes.count
-          @total_codes = @correct_codes.uniq!
-          @total_codes.include?(["1", "2", "3", "4"])	
+          if @correct_codes.uniq.length != @correct_codes.length
+            @total_codes = @correct_codes.uniq!
+          else
+          	@total_codes = @correct_codes
+            @total_codes.include?(["1", "2", "3", "4"])
+          end
 
         when 3
           puts "3"
           groups_r = [["x", move[1], move[2], move[3]], [ move[0], "x", move[2], move[3]], [ move[0], move[1], move[2], "x"], [move[0], move[1], "x", move[3]]]
-          print groups_r
           @total_codes.each do |code|	
 	  	    code.each_with_index do |color, index|
   	    	  groups_r.each do |gcode|
   	    	    gcode.each_with_index do |gcolor, gindex|
-  	  	#puts "kod sprawdzany = #{code} a ruch to #{move}"
-  	  	#puts "color = #{color}, ruch to #{move[index]}, a index = #{index}"
                   if gcode[gindex] == code[gindex]
-          #puts "    #{move[index]}, #{code[index]}"
                     @correct_codes.push(code)
-          #puts "    #{@correct_codes.length}"
                   end
                 end
               end
             end
           end
-          puts @correct_codes.count
-          @total_codes = @correct_codes.uniq!
-          @total_codes.include?(["1", "2", "3", "4"])
+          if @correct_codes.uniq.length != @correct_codes.length
+            @total_codes = @correct_codes.uniq!
+          else
+          	@total_codes = @correct_codes
+            @total_codes.include?(["1", "2", "3", "4"])
+          end
         else
 		  puts "blad evaluation create_groups"
 	  	end
-      end
-
-	  #puts "grupy = #{groups}"
-	  #h_feedback.each do |key, value|
-	  #	if key = "r"
-	  #		groups_r = move.combination(value).to_a.uniq!
+	  end
 	end
 
+=begin
 	def definicja(move, num)
 	  @bad_code = []
 	  
@@ -359,7 +382,7 @@ module Mastermind
 	  end
 
 	end
-
+=end
 
 	def next_move
 
@@ -370,7 +393,7 @@ module Mastermind
       elsif $round == 2
       	%w[5 5 6 6]
       else
-        proposal = @total_codes.sample
+        @total_codes.sample
       end  
 	end
 
