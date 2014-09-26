@@ -41,12 +41,10 @@ module Mastermind
     end
 
     def ia_move
-      puts @hal.create_groups(board.grid[$round - 1][0], board.grid[$round - 1][1])
+      @hal.code_eater(board.grid[$round - 1][0], board.grid[$round - 1][1])
       board.grid[$round][0] = @hal.next_move
       @coding_base.push(@hal.total_codes.count)
       puts "pozostalo #{@hal.total_codes.count} propozycji kodu"
-      
-      #print @hal.total_codes
 
     end
 
@@ -61,7 +59,6 @@ module Mastermind
       while true
         solicit_move
         next_move(@hacker)
-        #board.print_board
         board.descrambler
         puts ""
         board.print_board
