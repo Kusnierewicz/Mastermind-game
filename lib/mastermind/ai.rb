@@ -99,6 +99,7 @@ module Mastermind
           end
 
         when 2
+          
           puts "sa 2 r w feedbacku"
           puts "kodow do iteracji jest #{@total_codes.count}"
           groups_r = [["x", "x", move[2], move[3]], [ move[0], "x", "x", move[3]], [ move[0], move[1], "x", "x"], ["x", move[1], move[2], "x"], ["x", move[1], "x", move[3]], [ move[0], "x", move[2], "x"]]
@@ -106,10 +107,15 @@ module Mastermind
           @total_codes.each do |code|	
 	  	    code.each_with_index do |color, index|
   	    	  groups_r.each do |gcode|
+  	    	  	correct_color = 0
   	    	    gcode.each_with_index do |gcolor, gindex|
                   if gcode[gindex] == code[gindex]
-                    @correct_codes.push(code)
+                  	correct_color += 1
+                    #@correct_codes.push(code)
                   end
+                end
+                if correct_color >= 2
+                  @correct_codes.push(code)
                 end
               end
             end
@@ -124,6 +130,7 @@ module Mastermind
           end
 
         when 3
+          
           puts "sa 3 r w feedbacku"
           puts "kodow do iteracji jest #{@total_codes.count}"
           groups_r = [["x", move[1], move[2], move[3]], [ move[0], "x", move[2], move[3]], [ move[0], move[1], move[2], "x"], [move[0], move[1], "x", move[3]]]
@@ -131,10 +138,15 @@ module Mastermind
           @total_codes.each do |code|	
 	  	    code.each_with_index do |color, index|
   	    	  groups_r.each do |gcode|
+  	    	  	correct_color = 0
   	    	    gcode.each_with_index do |gcolor, gindex|
                   if gcode[gindex] == code[gindex]
-                    @correct_codes.push(code)
+                    #@correct_codes.push(code)
+                    correct_color += 1
                   end
+                end
+                if correct_color >= 3
+                  @correct_codes.push(code)
                 end
               end
             end
