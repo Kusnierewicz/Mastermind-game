@@ -23,7 +23,6 @@ module Mastermind
       return @mastermind.name, @hacker.name
     end
 
-
   	def solicit_move
   	  print "Round #{$round + 1}! #{@hacker.name}, please enter a code proposal (correct input example: 1234 ):"
   	end
@@ -44,7 +43,7 @@ module Mastermind
       @hal.code_eater(board.grid[$round - 1][0], board.grid[$round - 1][1])
       board.grid[$round][0] = @hal.next_move
       @coding_base.push(@hal.total_codes.count)
-      puts "pozostalo #{@hal.total_codes.count} propozycji kodu"
+      #puts "pozostalo #{@hal.total_codes.count} propozycji kodu"
 
     end
 
@@ -53,6 +52,7 @@ module Mastermind
     end
 
   	def play
+      puts "--------------------------------Welcome to mastermind---------------------------------------"
 
       players_setup(@players)
       board.code_setup(@mastermind, @hacker)
