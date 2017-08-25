@@ -2,19 +2,13 @@
 
 My implementation of Mastermind - a code-breaking game for two players. Please see <a href="http://en.wikipedia.org/wiki/Mastermind_(board_game)">Wikipedia article</a> for extendet info.
 
-## Installation - NOT TESTED!!
+## Installation
 
-Add this line to your application's Gemfile:
+Save Mastermind folder in your chosen location
 
-    gem 'mastermind'
+And then inside of it execute:
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install mastermind
+    $ bundle    
 
 ## Usage
 
@@ -34,7 +28,7 @@ If you choose to play against AI, you can be either hacker or mastermind. Try to
 
 ## Still in developement stage!!
 
-AI is based on Donald Knuth Five-guess algorithm, but it's not completed yet. 
+AI is based on Donald Knuth Five-guess algorithm, but it's not complete yet. 
 
 ## Contributing
 
