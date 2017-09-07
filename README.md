@@ -1,4 +1,4 @@
-# Mastermind
+# The Odin Project Assignment: "Build Mastermind game with AI"
 
 My implementation of Mastermind - a code-breaking game for two players. Please see <a href="http://en.wikipedia.org/wiki/Mastermind_(board_game)">Wikipedia article</a> for extendet info.
 
