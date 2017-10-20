@@ -37,3 +37,7 @@ AI is based on Donald Knuth Five-guess algorithm, but it's not complete yet.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## License
+
+\* See [license.txt](https://github.com/Kusnierewicz/Mastermind-game/blob/master/LICENSE.txt) for usage details.
