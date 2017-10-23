@@ -11,13 +11,13 @@ module Mastermind
 
     def players_setup(players)
       if players.length > 1
-        @mastermind = players[0].role == "mastermind" ? players[0] : players[1]
-        @hacker = players[1].role == "hacker" ? players[1] : players[0]
+        @mastermind = players[0].role == :m ? players[0] : players[1]
+        @hacker = players[1].role == :h ? players[1] : players[0]
       elsif players.length == 1
-        @mastermind = players[0].role == "mastermind" ? players[0] : Mastermind::Player.new({role: "mastermind", name: "computer"})
-        @hacker = @mastermind.name == "computer" ? players[0] : Mastermind::Player.new({role: "hacker", name: "computer"})
+        @mastermind = players[0].role == :m ? players[0] : Mastermind::Player.new({role: 'mastermind', name: 'HAL 9000'})
+        @hacker = @mastermind.name == 'HAL 9000' ? players[0] : Mastermind::Player.new({role: 'hacker', name: 'HAL 9000'})
       end
-      if @hacker.name == "computer"
+      if @hacker.name == 'HAL 9000'
         @hal = Mastermind::Ai.new
       end
       return @mastermind.name, @hacker.name
@@ -28,13 +28,13 @@ module Mastermind
   	end
 
   	def get_move(proposal = gets.chomp)
-  	  board.grid[$round][0] = proposal.split("")
+  	  board.grid[$round][0] = proposal.split('')
   	end
 
     def next_move(hacker)
-      if hacker.name != "computer"
+      if hacker.name != 'HAL 9000'
         get_move
-      else 
+      else
         ia_move
       end
     end
@@ -52,7 +52,7 @@ module Mastermind
     end
 
   	def play
-      puts "--------------------------------Welcome to mastermind---------------------------------------"
+      puts '--------------------------------Welcome to mastermind---------------------------------------'
 
       players_setup(@players)
       board.code_setup(@mastermind, @hacker)
@@ -60,14 +60,14 @@ module Mastermind
         solicit_move
         next_move(@hacker)
         board.descrambler
-        puts ""
+        puts ''
         board.print_board
         if board.game_over
           puts board.game_over
           puts @coding_base
           return
         end
-        next_round      
+        next_round
       end
   	end
 

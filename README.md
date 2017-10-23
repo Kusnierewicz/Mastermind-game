@@ -8,7 +8,7 @@ Save Mastermind folder in your chosen location
 
 And then inside of it execute:
 
-    $ bundle    
+    $ bundle
 
 ## Usage
 
@@ -28,7 +28,8 @@ If you choose to play against AI, you can be either hacker or mastermind. Try to
 
 ## Still in developement stage!!
 
-AI is based on Donald Knuth Five-guess algorithm, but it's not complete yet. 
+1. Input should be secured to prevent crushing
+2. AI is based on Donald Knuth Five-guess algorithm, but it's not perfect yet. But it is pretty darn good already :)
 
 ## Contributing
 

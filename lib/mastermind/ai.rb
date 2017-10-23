@@ -3,13 +3,13 @@ module Mastermind
 
   	attr_reader :name, :avalible_numbers, :total_codes
   	def initialize()
-  	  @name = "Hal 9000"
+  	  @name = 'HAL 9000'
   	  @avalible_numbers = %w[1 2 3 4 5 6]
       @total_codes = $colors.repeated_permutation(4).to_a
       @correct_numbers = []
       @possible_numbers = []
   	end
-  
+
 	def histogram(array)
 	  frequencies = Hash.new(0)
 	  array.each { |number| frequencies[number] += 1 }
@@ -51,7 +51,7 @@ module Mastermind
 	  	#puts "feedback == []"
 	  	#puts "kodow do iteracji jest #{@total_codes.count}"
 	  	@total_codes.delete(move)
-	  	
+
 	  	@total_codes.each do |element|
 		  element.each do |digit|
 		  	if move.include?(digit)
@@ -61,7 +61,7 @@ module Mastermind
 		end
 
 		@bad_code.push(move)
-		
+
 		if @bad_code.uniq.length != @bad_code.length
 		  @bad_code.uniq!
 		  #puts "kod nadal jest w bazie? = #{@total_codes.include?(["1", "2", "3", "4"])}"
@@ -73,16 +73,16 @@ module Mastermind
 		#puts "kodow do iteracji jest #{@total_codes.count}"
 	  end
 
-	  if h_feedback.has_key?("r")
+	  if h_feedback.has_key?('r')
 	  	@correct_codes = []
-	  	c = h_feedback["r"]
+	  	c = h_feedback['r']
 
 	  	case c
 	    when 1
 	      #puts "jest 1 r w feedbacku"
 	      #puts "kodow do iteracji jest #{@total_codes.count}"
-	  	  
-	  	  @total_codes.each do |code|	
+
+	  	  @total_codes.each do |code|
 	  	    code.each_with_index do |color, index|
               if move[index] == code[index]
                 @correct_codes.push(code)
@@ -99,12 +99,12 @@ module Mastermind
           end
 
         when 2
-          
+
           #puts "sa 2 r w feedbacku"
           #puts "kodow do iteracji jest #{@total_codes.count}"
-          groups_r = [["x", "x", move[2], move[3]], [ move[0], "x", "x", move[3]], [ move[0], move[1], "x", "x"], ["x", move[1], move[2], "x"], ["x", move[1], "x", move[3]], [ move[0], "x", move[2], "x"]]
-          
-          @total_codes.each do |code|	
+          groups_r = [['x', 'x', move[2], move[3]], [ move[0], 'x', 'x', move[3]], [ move[0], move[1], 'x', 'x'], ['x', move[1], move[2], 'x'], ['x', move[1], 'x', move[3]], [ move[0], 'x', move[2], 'x']]
+
+          @total_codes.each do |code|
 	  	    code.each_with_index do |color, index|
   	    	  groups_r.each do |gcode|
   	    	  	correct_color = 0
@@ -130,12 +130,12 @@ module Mastermind
           end
 
         when 3
-          
+
           #puts "sa 3 r w feedbacku"
           #puts "kodow do iteracji jest #{@total_codes.count}"
-          groups_r = [["x", move[1], move[2], move[3]], [ move[0], "x", move[2], move[3]], [ move[0], move[1], move[2], "x"], [move[0], move[1], "x", move[3]]]
-          
-          @total_codes.each do |code|	
+          groups_r = [['x', move[1], move[2], move[3]], [ move[0], 'x', move[2], move[3]], [ move[0], move[1], move[2], 'x'], [move[0], move[1], 'x', move[3]]]
+
+          @total_codes.each do |code|
 	  	    code.each_with_index do |color, index|
   	    	  groups_r.each do |gcode|
   	    	  	correct_color = 0
@@ -168,7 +168,7 @@ module Mastermind
 	  if move.uniq.length != move.length
 	  	@bad_code = []
 	  	#puts "sa powtorzenia w kodzie"
-	    
+
 	    h_feedback.each do |key, value|
 		  if value.to_i > feedback.length
 		  	@total_codes.each do |element|
@@ -205,7 +205,7 @@ module Mastermind
         %w[1 1 2 2]
       else
         @total_codes.sample
-      end  
+      end
 	end
 
   end
